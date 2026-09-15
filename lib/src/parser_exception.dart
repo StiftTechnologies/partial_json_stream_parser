@@ -3,9 +3,9 @@ class PartialJsonException implements Exception {
   final String message;
   final String? input;
   final int? position;
-  
+
   const PartialJsonException(this.message, {this.input, this.position});
-  
+
   @override
   String toString() {
     final buffer = StringBuffer('PartialJsonException: $message');

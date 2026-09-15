@@ -15,11 +15,7 @@ void main() {
       test('parses complete objects', () {
         final json = '{"name": "John", "age": 30, "active": true}';
         final result = strictParser.parse(json);
-        expect(result, equals({
-          'name': 'John',
-          'age': 30,
-          'active': true,
-        }));
+        expect(result, equals({'name': 'John', 'age': 30, 'active': true}));
       });
 
       test('parses complete arrays', () {
@@ -31,12 +27,15 @@ void main() {
       test('parses nested structures', () {
         final json = '{"user": {"name": "Alice", "scores": [95, 87, 92]}}';
         final result = strictParser.parse(json);
-        expect(result, equals({
-          'user': {
-            'name': 'Alice',
-            'scores': [95, 87, 92],
-          }
-        }));
+        expect(
+          result,
+          equals({
+            'user': {
+              'name': 'Alice',
+              'scores': [95, 87, 92],
+            },
+          }),
+        );
       });
     });
 
@@ -94,7 +93,13 @@ void main() {
       test('handles nested incomplete arrays', () {
         final json = '[[1, 2], [3, 4';
         final result = strictParser.parse(json);
-        expect(result, equals([[1, 2], [3, 4]]));
+        expect(
+          result,
+          equals([
+            [1, 2],
+            [3, 4],
+          ]),
+        );
       });
     });
 
@@ -218,13 +223,20 @@ void main() {
       test('handles deeply nested incomplete structure', () {
         final json = '{"a": {"b": {"c": [1, 2, {"d": "test"';
         final result = strictParser.parse(json);
-        expect(result, equals({
-          'a': {
-            'b': {
-              'c': [1, 2, {'d': 'test'}]
-            }
-          }
-        }));
+        expect(
+          result,
+          equals({
+            'a': {
+              'b': {
+                'c': [
+                  1,
+                  2,
+                  {'d': 'test'},
+                ],
+              },
+            },
+          }),
+        );
       });
 
       test('handles mixed complete and incomplete elements', () {
@@ -282,13 +294,24 @@ void main() {
       test('handles array of objects with missing values', () {
         final json = '[{"a": 1}, {"b":';
         final result = strictParser.parse(json);
-        expect(result, equals([{'a': 1}, {'b': null}]));
+        expect(
+          result,
+          equals([
+            {'a': 1},
+            {'b': null},
+          ]),
+        );
       });
 
       test('handles object with array value incomplete', () {
         final json = '{"items": [1, 2, 3';
         final result = strictParser.parse(json);
-        expect(result, equals({'items': [1, 2, 3]}));
+        expect(
+          result,
+          equals({
+            'items': [1, 2, 3],
+          }),
+        );
       });
     });
 
@@ -343,8 +366,10 @@ void main() {
         ''';
         final result = strictParser.parse(json);
         expect(result['id'], equals('chatcmpl-123'));
-        expect(result['choices'][0]['message']['content'], 
-               contains('Hello! How can I help you today?'));
+        expect(
+          result['choices'][0]['message']['content'],
+          contains('Hello! How can I help you today?'),
+        );
       });
     });
   });
