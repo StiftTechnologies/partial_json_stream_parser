@@ -4,8 +4,9 @@ void main() {
   // Example 1: Basic usage with incomplete JSON
   print('=== Example 1: Basic Incomplete JSON ===');
   final parser = PartialJsonParser();
-  
-  final incompleteJson = '{"name": "John Doe", "age": 30, "is_student": false, "courses": ["Math", "Science"';
+
+  final incompleteJson =
+      '{"name": "John Doe", "age": 30, "is_student": false, "courses": ["Math", "Science"';
   final result = parser.parse(incompleteJson);
   print('Input: $incompleteJson');
   print('Parsed: $result');
@@ -15,13 +16,15 @@ void main() {
   print('=== Example 2: Strict vs Non-Strict Mode ===');
   final strictParser = PartialJsonParser(strict: true);
   final nonStrictParser = PartialJsonParser(strict: false);
-  
+
   final jsonWithNewline = '{"text": "Line 1\\nLine 2"}';
   print('Input: $jsonWithNewline');
   print('Strict mode result: ${strictParser.parse(jsonWithNewline)}');
-  
+
   final rawNewlineJson = '{"text": "Line 1\nLine 2"}';
-  print('Non-strict with raw newline: ${nonStrictParser.parse(rawNewlineJson)}');
+  print(
+    'Non-strict with raw newline: ${nonStrictParser.parse(rawNewlineJson)}',
+  );
   print('');
 
   // Example 3: Streaming simulation (like from an LLM)
@@ -59,7 +62,7 @@ void main() {
             "dataStoreConnUsageLimit": 100,
             "dataStoreLogLevel": "debug"
   ''';
-  
+
   final complexResult = parser.parse(complexJson);
   print('Complex nested JSON parsed successfully:');
   _printJson(complexResult);
@@ -68,12 +71,12 @@ void main() {
   // Example 5: Handling various incomplete types
   print('=== Example 5: Various Incomplete Types ===');
   final testCases = [
-    '{"value": 42.',           // Trailing decimal
-    '{"active": t',             // Incomplete true
-    '{"data": n',               // Incomplete null
-    '{"items": [1, 2, 3',       // Incomplete array
+    '{"value": 42.', // Trailing decimal
+    '{"active": t', // Incomplete true
+    '{"data": n', // Incomplete null
+    '{"items": [1, 2, 3', // Incomplete array
     '{"user": {"name": "Alice"', // Nested incomplete object
-    '{"text": "test\\u00',      // Incomplete escape sequence
+    '{"text": "test\\u00', // Incomplete escape sequence
   ];
 
   for (final testCase in testCases) {
@@ -116,14 +119,17 @@ void main() {
 
   // Example 8: Progressive parsing demonstration
   print('=== Example 8: Progressive Parsing ===');
-  final progressiveJson = '{"users": [{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}, {"name": "Charlie"';
-  
+  final progressiveJson =
+      '{"users": [{"name": "Alice", "age": 30}, {"name": "Bob", "age": 25}, {"name": "Charlie"';
+
   // Simulate receiving data progressively
   String accumulated = '';
   for (int i = 0; i < progressiveJson.length; i += 10) {
-    final end = (i + 10 > progressiveJson.length) ? progressiveJson.length : i + 10;
+    final end = (i + 10 > progressiveJson.length)
+        ? progressiveJson.length
+        : i + 10;
     accumulated = progressiveJson.substring(0, end);
-    
+
     try {
       final result = parser.parse(accumulated);
       print('After ${accumulated.length} chars: ${_summarizeResult(result)}');
